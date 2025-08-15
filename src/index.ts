@@ -1,5 +1,4 @@
-import * as express from 'express';
-import { newApp } from './app';
+import newApp from './app';
 
 const main = () => {
     const App = newApp(3000);
