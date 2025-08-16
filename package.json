@@ -44,6 +44,10 @@
         "class-validator": "^0.14.2",
         "dotenv": "^17.2.1",
         "express": "^5.1.0",
-        "routing-controllers": "^0.11.3"
+        "nanoid": "^5.1.5",
+        "reflect-metadata": "^0.2.2",
+        "routing-controllers": "^0.11.3",
+        "sqlite3": "^5.1.7",
+        "typeorm": "^0.3.25"
     }
 }

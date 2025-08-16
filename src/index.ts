@@ -1,4 +1,5 @@
 import newApp from './app';
+import 'reflect-metadata';
 
 const main = () => {
     const App = newApp(3000);
