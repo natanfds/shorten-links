@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { ValidationError, validateSync } from 'class-validator';
 import { Request, Response, NextFunction } from 'express';
-import GeneralResponseDTO from '../dtos/generalResponse';
+import apiSendResponse from '../utils/apiSendResponse';
 
 function validateDTOMiddleware<T>(dtoClass: new () => T) {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -14,14 +14,12 @@ function validateDTOMiddleware<T>(dtoClass: new () => T) {
 
         const errors = validateSync(dtoInstance as Object, DTO_VALIDATION_OPTIONS);
         if (errors.length > 0) {
-            const errorMessage: GeneralResponseDTO = {
-                status: 'error',
-                message: 'Validation failed',
-                errors: errors.map((error: ValidationError) =>
-                    Object.values(error.constraints as Object),
-                ),
-            };
-            return res.status(400).json(errorMessage);
+            const formatedErrors = errors
+                .map((error: ValidationError) => Object.values(error.constraints as Object))
+                .reduce((acc: string[], cur: string[]) => {
+                    return acc.concat(cur);
+                }, []);
+            return apiSendResponse(res, 400, 'Validation failed', null, formatedErrors);
         }
         next();
     };

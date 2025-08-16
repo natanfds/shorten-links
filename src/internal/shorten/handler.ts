@@ -5,6 +5,7 @@ import { DTOShortenResponseURL, DTOShortenURL } from './dtos';
 import { nanoid } from 'nanoid';
 import { Repository } from 'typeorm';
 import ModelShortenedUrlInfo from './models';
+import apiSendResponse from '../../utils/apiSendResponse';
 
 class ShortenHandler extends Handler {
     shortenedUrlHandler: Repository<ModelShortenedUrlInfo>;
@@ -28,7 +29,7 @@ class ShortenHandler extends Handler {
             short_url: 'https://localhost:3000/' + short_url_param,
         };
 
-        res.status(201).send(responseData);
+        apiSendResponse(res, 201, 'URL shortened successfully', responseData);
     }
 }
 

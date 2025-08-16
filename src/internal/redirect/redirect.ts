@@ -3,8 +3,7 @@ import { Request, Response } from 'express';
 import Handler from '../../interfaces/handler';
 import { Repository } from 'typeorm';
 import ModelShortenedUrlInfo from '../shorten/models';
-import ErrorData from '../../types/errorData';
-import getErrorData from '../../utils/getErrorData';
+import apiSendResponse from '../../utils/apiSendResponse';
 
 class RedirectHandler extends Handler {
     shortenedUrlHandler: Repository<ModelShortenedUrlInfo>;
@@ -20,8 +19,7 @@ class RedirectHandler extends Handler {
             short_url_param: short_url_param,
         });
         if (!shortenedUrlData) {
-            const errorData: ErrorData = getErrorData(new Error('URL not found'));
-            res.status(404).json(errorData);
+            apiSendResponse(res, 404, 'URL not found', null, ['URL not found']);
             return;
         }
 
