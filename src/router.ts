@@ -23,10 +23,10 @@ const redirectHandler = new RedirectHandler(shortenedURLRepository);
 apiV1.post(
     `/shorten`,
     validateDTOMiddleware(DTOShortenURL),
-    shortenHandler.execute.bind(shortenHandler),
+    shortenHandler.handle.bind(shortenHandler),
 );
 
 //url geral
-router.get('/:short_url_param', redirectHandler.execute.bind(redirectHandler));
+router.get('/:short_url_param', redirectHandler.handle.bind(redirectHandler));
 
 export default router;

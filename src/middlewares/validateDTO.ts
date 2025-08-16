@@ -19,7 +19,7 @@ function validateDTOMiddleware<T>(dtoClass: new () => T) {
                 .reduce((acc: string[], cur: string[]) => {
                     return acc.concat(cur);
                 }, []);
-            return apiSendResponse(res, 400, 'Validation failed', null, formatedErrors);
+            return apiSendResponse(res, 400, 'Validation failed', formatedErrors);
         }
         next();
     };

@@ -1,8 +1,7 @@
-class GeneralResponseDTO {
+class GeneralResponseDTO<T> {
     status: 'error' | 'success';
     message: string;
-    data?: any;
-    errors?: any;
+    data?: T;
 }
 
 export default GeneralResponseDTO;

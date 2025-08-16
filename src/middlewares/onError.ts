@@ -4,10 +4,11 @@ import getErrorData from '../utils/getErrorData';
 
 function OnErrorMiddleware(err: any, req: Request, res: Response, next: NextFunction) {
     console.error('!!!Error!!!', getErrorData(err));
-    const errorData: GeneralResponseDTO = {
+
+    const errorData: GeneralResponseDTO<string[]> = {
         status: 'error',
         message: 'Erro interno do servidor',
-        errors: [err.message],
+        data: [err.message],
     };
     res.status(500).json(errorData);
 }

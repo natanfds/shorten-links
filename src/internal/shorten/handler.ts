@@ -5,9 +5,10 @@ import { DTOShortenResponseURL, DTOShortenURL } from './dtos';
 import { nanoid } from 'nanoid';
 import { Repository } from 'typeorm';
 import ModelShortenedUrlInfo from './models';
-import apiSendResponse from '../../utils/apiSendResponse';
+import WorkerResponse from '../../dtos/workerResponse';
+import GeneralResponseDTO from '../../dtos/generalResponse';
 
-class ShortenHandler extends Handler {
+class ShortenHandler extends Handler<WorkerResponse<DTOShortenResponseURL>> {
     shortenedUrlHandler: Repository<ModelShortenedUrlInfo>;
 
     constructor(shortenedUrlHandler: Repository<ModelShortenedUrlInfo>) {
@@ -15,7 +16,7 @@ class ShortenHandler extends Handler {
         this.shortenedUrlHandler = shortenedUrlHandler;
     }
 
-    async execute(req: Request, res: Response): Promise<void> {
+    async __worker(req: Request, res: Response): Promise<WorkerResponse<DTOShortenResponseURL>> {
         const data = req.body as unknown as DTOShortenURL;
         const short_url_param = nanoid(6);
 
@@ -24,12 +25,18 @@ class ShortenHandler extends Handler {
             short_url_param: short_url_param,
         });
 
-        const responseData: DTOShortenResponseURL = {
-            url: data.url,
-            short_url: 'https://localhost:3000/' + short_url_param,
+        const responseData: GeneralResponseDTO<DTOShortenResponseURL> = {
+            status: 'success',
+            message: 'URL shortened successfully',
+            data: {
+                url: data.url,
+                short_url: 'https://localhost:3000/' + short_url_param,
+            },
         };
 
-        apiSendResponse(res, 201, 'URL shortened successfully', responseData);
+        const response: WorkerResponse<DTOShortenResponseURL> = { status: 201, data: responseData };
+
+        return response;
     }
 }
 
