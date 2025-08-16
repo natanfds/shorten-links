@@ -1,15 +1,35 @@
 import { Request, Response } from 'express';
 
 import Handler from '../../interfaces/handler';
+import { Repository } from 'typeorm';
+import ModelShortenedUrlInfo from '../shorten/models';
+import ErrorData from '../../types/errorData';
+import getErrorData from '../../utils/getErrorData';
 
 class RedirectHandler extends Handler {
-    constructor() {
+    shortenedUrlHandler: Repository<ModelShortenedUrlInfo>;
+
+    constructor(shortenedUrlHandler: Repository<ModelShortenedUrlInfo>) {
         super();
+        this.shortenedUrlHandler = shortenedUrlHandler;
     }
 
     async execute(req: Request, res: Response): Promise<void> {
-        const id = req.params.id;
-        res.redirect('https://google.com');
+        const short_url_param = String(req.params.short_url_param);
+        const shortenedUrlData = await this.shortenedUrlHandler.findOneBy({
+            short_url_param: short_url_param,
+        });
+        if (!shortenedUrlData) {
+            const errorData: ErrorData = getErrorData(new Error('URL not found'));
+            res.status(404).json(errorData);
+            return;
+        }
+
+        let { url } = shortenedUrlData;
+        if (!/^https?:\/\//i.test(url)) {
+            url = 'https://' + url;
+        }
+        res.redirect(url);
     }
 }
 

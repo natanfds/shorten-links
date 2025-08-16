@@ -19,12 +19,14 @@ router.use(`/api`, api);
 
 //declarações da API V1
 const shortenHandler = new ShortenHandler(shortenedURLRepository);
-const redirectHandler = new RedirectHandler();
+const redirectHandler = new RedirectHandler(shortenedURLRepository);
 apiV1.post(
     `/shorten`,
     validateDTOMiddleware(DTOShortenURL),
     shortenHandler.execute.bind(shortenHandler),
 );
-router.get('/:id', redirectHandler.execute.bind(redirectHandler));
+
+//url geral
+router.get('/:short_url_param', redirectHandler.execute.bind(redirectHandler));
 
 export default router;
