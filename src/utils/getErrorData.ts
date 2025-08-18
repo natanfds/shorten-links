@@ -16,10 +16,13 @@ function getErrorData(err: Error): ErrorData {
                 rejoinedPath = rejoinedPath.replace(process.cwd(), '');
                 return rejoinedPath;
             });
-
-        location = (err.stack.split('\n').filter((e: string) => !e.includes('/'))[1] as string)
-            .trim()
-            .replace('at ', '');
+        if (stack.some((e: string) => !e.includes('node_modules'))) {
+            location = (err.stack.split('\n').filter((e: string) => !e.includes('/'))[1] as string)
+                .trim()
+                .replace('at ', '');
+        } else {
+            location = 'node module internal execution';
+        }
     } else {
         stack = [];
         location = '';
@@ -29,6 +32,7 @@ function getErrorData(err: Error): ErrorData {
         text: err.message,
         location: location,
         stack: stack,
+        class: err.constructor.name,
     };
     return errorData;
 }
