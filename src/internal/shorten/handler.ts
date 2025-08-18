@@ -22,7 +22,7 @@ class ShortenHandler extends Handler<WorkerResponse<DTOShortenResponseURL>> {
         let short_url_param: string;
         let enlapsedCreationTries = 5;
         do {
-            short_url_param = 'nanoid(6)';
+            short_url_param = nanoid(6);
 
             try {
                 await this.shortenedUrlHandler.save({
