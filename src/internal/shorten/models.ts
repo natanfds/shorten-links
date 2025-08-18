@@ -4,10 +4,12 @@ import {
     DeleteDateColumn,
     Entity,
     PrimaryGeneratedColumn,
+    Unique,
     UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Unique(['short_url_param'])
 class ModelShortenedUrlInfo {
     @PrimaryGeneratedColumn()
     id: number;
@@ -23,7 +25,7 @@ class ModelShortenedUrlInfo {
     @Column()
     url: string;
 
-    @Column()
+    @Column({ unique: true })
     short_url_param: string;
 
     @Column()
