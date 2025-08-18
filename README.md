@@ -10,7 +10,7 @@
 1. Clone o repositório
 
    ```bash
-   git clone [URL_DO_REPOSITÓRIO]
+   git clone https://github.com/albrigs/shorten-links.git
    cd shorten-links
    ```
 
@@ -24,7 +24,14 @@
    yarn
    ```
 
-3. Inicie o servidor de desenvolvimento
+3. Adicione o arquivo .env com os seguintes parâmetros:
+
+   ```env
+   PORT=[number]
+   ENV=dev|prod|test
+   ```
+
+4. Inicie o servidor de desenvolvimento
 
    ```bash
    # Usando npm
@@ -36,7 +43,7 @@
 
    O servidor será iniciado com hot-reload usando nodemon.
 
-4. Para produção, primeiro faça o build e depois inicie:
+5. Para produção, primeiro faça o build e depois inicie:
 
    ```bash
    # Build do projeto
@@ -50,10 +57,10 @@
    yarn start
    ```
 
-5. Acesse a aplicação em:
+6. Acesse a aplicação em:
 
    ```bash
-   http://localhost:3000
+   http://localhost:${PORT}
    ```
 
 ## Scripts disponíveis
