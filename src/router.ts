@@ -7,8 +7,8 @@ import ModelShortenedUrlInfo from './internal/shorten/models';
 import createDataSource from './database/createDataSource';
 import Env from './utils/env';
 
-function createRouter(env: Env): Router {
-    const sqlDataSource = createDataSource('sql', env);
+async function createRouter(env: Env): Promise<Router> {
+    const sqlDataSource = await createDataSource('sql', env);
     const shortenedURLRepository = sqlDataSource.getRepository(ModelShortenedUrlInfo);
 
     const shortenHandler = new ShortenHandler(shortenedURLRepository);

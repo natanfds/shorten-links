@@ -2,9 +2,9 @@ import newApp from './app';
 import 'reflect-metadata';
 import Env from './utils/env';
 
-const main = () => {
+const main = async () => {
     const env: Env = new Env();
-    const App = newApp(env);
+    const App = await newApp(env);
     const port = App.get('port');
 
     App.listen(port, () => {

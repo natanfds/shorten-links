@@ -70,3 +70,4 @@
 - `start`: Inicia o servidor em produção
 - `lint`: Executa o linter no código
 - `format`: Formata o código automaticamente
+- `mock-db`: Insere dados fictícios no banco de dados

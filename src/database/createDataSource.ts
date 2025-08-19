@@ -2,7 +2,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import Env from '../utils/env';
 import ModelShortenedUrlInfo from '../internal/shorten/models';
 
-function createDataSource(kind: 'sql', env: Env): DataSource {
+async function createDataSource(kind: 'sql', env: Env): Promise<DataSource> {
     let dataSourceOptions: DataSourceOptions;
     switch (kind) {
         case 'sql':
@@ -21,7 +21,7 @@ function createDataSource(kind: 'sql', env: Env): DataSource {
     }
 
     const dataSource = new DataSource(dataSourceOptions);
-    Promise.resolve(dataSource.initialize());
+    await dataSource.initialize();
     return dataSource;
 }
 

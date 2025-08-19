@@ -8,12 +8,14 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc",
         "lint": "eslint . --ext .ts,.tsx",
-        "format": "prettier --write 'src/**/*.{ts,tsx}'"
+        "format": "prettier --write 'src/**/*.{ts,tsx}'",
+        "mock-db": "ts-node tools/fillMockedDB.ts"
     },
     "author": "",
     "license": "ISC",
     "description": "",
     "devDependencies": {
+        "@faker-js/faker": "^9.9.0",
         "@types/dotenv": "^6.1.1",
         "@types/express": "^5.0.3",
         "@types/node": "^24.3.0",
